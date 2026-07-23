@@ -2,23 +2,28 @@ pipeline {
 
     agent any
 
+    tools {
+        jdk 'JDK21'
+        maven 'Maven-3.9'
+    }
+
     stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
 
         stage('Build') {
             steps {
-                echo 'Compilando proyecto'
+                sh 'mvn clean compile'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Ejecutando pruebas'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Desplegando aplicación'
+                sh 'mvn test'
             }
         }
     }
